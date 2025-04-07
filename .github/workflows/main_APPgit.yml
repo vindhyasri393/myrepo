@@ -23,14 +23,14 @@ jobs:
       uses: docker/login-action@v2
       with:
         registry: https://hellocontainer1.azurecr.io/
-        username: ${{ secrets.AzureAppService_ContainerUsername_7469e4f63d7a4631ae0d254d8d6ea9bc }}
-        password: ${{ secrets.AzureAppService_ContainerPassword_883b28f9bdc14bb59b54d0e02e33e98f }}
+        username: ${{ secrets.AzureAppService_ContainerUsername }}
+        password: ${{ secrets.AzureAppService_ContainerPassword }}
 
     - name: Build and push container image to registry
       uses: docker/build-push-action@v3
       with:
         push: true
-        tags: hellocontainer1.azurecr.io/${{ secrets.AzureAppService_ContainerUsername_7469e4f63d7a4631ae0d254d8d6ea9bc }}/mycontainerimage:${{ github.sha }}
+        tags: hellocontainer1.azurecr.io/mycontainerimage:${{ github.sha }}
         file: ./Dockerfile
 
   deploy:
@@ -48,4 +48,4 @@ jobs:
         app-name: 'APPgit'
         slot-name: 'production'
         publish-profile: ${{ secrets.AzureAppService_PublishProfile_95fa0d583f8742aea3837b197325c2f4 }}
-        images: 'hellocontainer1.azurecr.io/${{ secrets.AzureAppService_ContainerUsername_7469e4f63d7a4631ae0d254d8d6ea9bc }}/mycontainerimage:${{ github.sha }}'
+        images: 'hellocontainer1.azurecr.io/mycontainerimage:${{ github.sha }}'
