@@ -23,14 +23,14 @@ jobs:
       uses: docker/login-action@v2
       with:
         registry: https://hellocontainer1.azurecr.io/
-        username: ${{ secrets.AzureAppService_ContainerUsername_c2a694a4c70d455f87a7e0aa216585c2 }}
-        password: ${{ secrets.AzureAppService_ContainerPassword_6294071dc72b4554b7a6f6e27b748854 }}
+        username: ${{ secrets.AzureAppService_ContainerUsername }}
+        password: ${{ secrets.AzureAppService_ContainerPassword }}
 
     - name: Build and push container image to registry
       uses: docker/build-push-action@v3
       with:
         push: true
-        tags: hellocontainer1.azurecr.io/${{ secrets.AzureAppService_ContainerUsername_c2a694a4c70d455f87a7e0aa216585c2 }}/dummyimage:${{ github.sha }}
+        tags: hellocontainer1.azurecr.io/dummyimage:${{ github.sha }}
         file: ./Dockerfile
 
   deploy:
@@ -48,4 +48,4 @@ jobs:
         app-name: 'dummyappse'
         slot-name: 'production'
         publish-profile: ${{ secrets.AzureAppService_PublishProfile_0f177f7982d049768194f79351514887 }}
-        images: 'hellocontainer1.azurecr.io/${{ secrets.AzureAppService_ContainerUsername_c2a694a4c70d455f87a7e0aa216585c2 }}/dummyimage:${{ github.sha }}'
+        images: 'hellocontainer1.azurecr.io/dummyimage:${{ github.sha }}'
